@@ -3,11 +3,11 @@
 require_once("twitteroauth/twitteroauth/twitteroauth.php"); //Path to twitteroauth library
 require_once("twitteroauth/twitteroauth/OAuth.php"); 
 
-define('CONSUMER_KEY', 'mEsOyJCK65LC8hAEN0UGRSEAY');
-define('CONSUMER_SECRET', 'AnoszNrsYGFUD6A0eudnbj5vu25nVK82rvDkPFRwrJjwEHhWIl');
-define('OAUTH_CALLBACK', 'http://localhost/getHome.php');
-define('ACCESS_TOKEN', '3138711905-WtuLNEHrlMMieTcWmdYXRZBVYmZyfICrUB8nIR6');
-define('ACCESS_TOKEN_SECRET', 'JR292ZrivD9aIP60J579wSByQ5lNGLvDOFfKIpJ6GaOQ4');
+define('CONSUMER_KEY', '8QBzYeEiQvcPbb3Pm0OgjMXnc');
+define('CONSUMER_SECRET', 'QvDNfXx1mQ8DdsMBM5IfTRyRMwFhuDeQuLzcbEpKHPASrefwZV');
+define('OAUTH_CALLBACK', 'http://social.cs.uiuc.edu/twitterstudy/getHome.php');
+define('ACCESS_TOKEN', '3138711905-QDwcVYUxo8LwXQyIg5ShHjmdWBWsnQU7fC8R3rd');
+define('ACCESS_TOKEN_SECRET', 'Oy2gvUJS3VZgiMbmD2qJu4Hmftarmlh6r57lVjrMjzmLi');
 
 session_start();
 
