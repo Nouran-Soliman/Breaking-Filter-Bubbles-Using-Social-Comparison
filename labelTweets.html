@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+
+	<body>
+		<p id="text"> </p>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"> </script>
+	  	<script src="js/scripts.js"> </script>
+
+	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	  	<script src ="/your-own-js-using-jquery.js"></script>
+	  	<script>
+	  		console.log("Nouran");
+	  		var username = prompt("Enter username");
+	  		var jsonRes;
+	  		$.ajax({ 
+	      	url: "http://localhost/getHome.php?read=true&username=" + username,
+	      	success: function(result){
+	      		var promises = [];
+	      		jsonRes = JSON.parse(result);
+        		for (var key in jsonRes) {
+	          		if(key != '0'){
+	          			var tweetText = jsonRes[key]['full_text'];
+	          			var par = document.getElementById("text");
+	          			par.innerHTML = tweetText;
+						jsonRes[key]['political'] = isPolitical(tweetText);
+						if(jsonRes[key]['political']){
+							jsonRes[key]['self_bias'] = getSelfBias(tweetText);
+							jsonRes[key]['keywords'] = findKeywords(tweetText);
+							console.log("Before getting the world");
+							var request = $.get({ url: "http://localhost/getHome.php?get_world=true&key=" + key + "&tweet_keywords=" + jsonRes[key]['keywords'],
+								success: function(worldData) {
+									console.log(worldData);
+									var worldData2 = JSON.parse(worldData);
+									var key = worldData2[0];
+									jsonRes[key]['world_bias'] = getWorldBias(worldData2);
+								}
+							});
+							promises.push( request);
+						}
+	          		}
+          		}
+
+          		$.when.apply(null, promises).done(function(){
+          			console.log("write to file:\n", JSON.stringify(jsonRes));
+				   /*$.get({ url: 'http://localhost/getHome.php?write=true&username=' + username + "&file=" + JSON.stringify(jsonRes) , sucess: function(response) {
+      					alert(response);
+
+    				} } );*/
+    				/*
+				   $.post('http://localhost/getHome.php?write=true&username=' + username, {file: JSON.stringify(jsonRes)}, function(response){
+				        alert(response);
+				    }, 'json');*/
+				    //alert("7a3ml post request ahooo");
+				    $.ajax({
+					    url: 'http://localhost/getHome.php?write=true&username=' + username,
+					    type: 'POST',
+					    dataType: 'json',
+					    data: JSON.stringify({ file: jsonRes }),
+					    contentType: 'application/json; charset=utf-8',
+				        success: function(response) {
+				               alert(response);
+				            }
+					});
+
+				});
+
+
+          		
+
+	      	}});
+
+	  		function isPolitical(tweetText){ //Model!!!
+	      		if(confirm("If Political, press ok, else cancel: \n" + tweetText))
+	      			return true;
+	          	return false;
+	      	}
+
+	      	function findKeywords(tweetText){ //tfidf !!!
+	      		var keywords = prompt("Enter search keywords for this tweet separated by spaces: \n" + tweetText);
+	      		return keywords;
+
+	      	}
+
+	      	function getSelfBias(tweetText){ //bias code!!!
+	      		var selfBias = parseInt(prompt("Enter Bias of Post: \n" + tweetText));
+	      		return selfBias;
+
+	      	}
+
+	      	function calcOutputBias(worldBiases){ //get overall bias
+	      		var aggBias = [0, 0, 0, 0, 0];
+	      		var out = 0;
+
+				for(var i = 0; i < 5; i++){
+					for(var j = 0; j < i+1; j++){
+						aggBias[i] += (worldBiases[j]);
+					}
+					aggBias[i] /= (i+1);	
+				}
+
+				for(var i = 0; i < 5; i++){
+					out += aggBias[i];
+				}
+
+				out /= 5;
+				return out;
+	      	}
+
+	      	function getWorldBias(worldData){ //fetch world posts!!!
+	      		var worldBiases = [];
+	      		for(var i = 1; i < 6; i++){
+	      			worldBiases.push(getSelfBias(worldData[i]));
+	      		}
+
+	      		return calcOutputBias(worldBiases);
+	      	}
+
+	  	</script>
+
+	</body>
+</html>
