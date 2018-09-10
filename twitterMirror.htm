@@ -1837,7 +1837,7 @@ s,
     var tweet_id = 0;
     
     $.ajax({
-      url: " http://social.cs.uiuc.edu/twitterstudy/getHome.php?read=true&username=" + usrNm,
+      url: "http://social.cs.uiuc.edu/twitterstudy/getHome.php?read=true&username=" + usrNm,
       success: function(result){
         var jsonRes = JSON.parse(result);
         
