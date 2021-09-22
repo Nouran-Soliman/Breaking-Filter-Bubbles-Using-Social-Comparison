@@ -3,11 +3,11 @@
 require_once("twitteroauth/twitteroauth/twitteroauth.php"); //Path to twitteroauth library
 require_once("twitteroauth/twitteroauth/OAuth.php"); 
 
-define('CONSUMER_KEY', 'mEsOyJCK65LC8hAEN0UGRSEAY');
-define('CONSUMER_SECRET', 'AnoszNrsYGFUD6A0eudnbj5vu25nVK82rvDkPFRwrJjwEHhWIl');
+define('CONSUMER_KEY', '');
+define('CONSUMER_SECRET', '');
 define('OAUTH_CALLBACK', 'http://localhost/getHome.php');
-define('ACCESS_TOKEN', '3138711905-WtuLNEHrlMMieTcWmdYXRZBVYmZyfICrUB8nIR6');
-define('ACCESS_TOKEN_SECRET', 'JR292ZrivD9aIP60J579wSByQ5lNGLvDOFfKIpJ6GaOQ4');
+define('ACCESS_TOKEN', '');
+define('ACCESS_TOKEN_SECRET', '');
 
 session_start();
 
